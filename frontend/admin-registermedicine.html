@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="admin-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="admin">
+    <header class="navbar">
+      <i class="fa-solid fa-bars fa-2xl" style="color: white; margin-left: 10px;" ></i>
+      <div class="navbar-right">
+      <p>ADMIN</p>
+      <img src="logo.png" class="admin-logo" alt="Shield Logo" />
+      </div>
+    </header>
+    <div class="register-medicine-cnt">
+        <div class="register-medicine">
+        <h1 class="admin-h1">
+            Register Medicine
+        </h1>
+        <form class="register-form">
+            <label class="label"  for="medicine-name">Medicine Name:</label><br>
+            <input type="text" class="input" name="medicine-name" placeholder="Enter Medicine Name" required><br>
+            
+            <label class="label"for="medicine-id">Batch No:</label><br>
+            <input type="text" class="input" name="Batch No:" placeholder="Enter Batch No:" required><br>
+            
+            <label class="label" for="hash-code">Hash Code:</label><br>
+            <input type="text" class="input" name="hash-code"  placeholder="Enter hash-code"><br>
+
+            <label class="label" for="expiry-date">Expiry Date:</label><br>
+            <input type="date" class="input" name="expiry-date" required><br>
+            
+            <button class="admin-submit" type="submit">Register</button>
+        </form>
+        </div>
+    </div>
+</body>
+</html>

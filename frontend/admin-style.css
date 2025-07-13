@@ -1,0 +1,112 @@
+/* Headings */
+h1, h3 {
+  color: #20cd8d;
+  font-family: 'Nunito', sans-serif;
+  font-size: 40px;
+  text-align: center;
+}
+
+h3 {
+  color: white;
+  font-size: 16.8px;
+  margin-top: 10px;
+}
+
+/* Body with overlay background image */
+.Home {
+  background-color: #182527;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Background image with opacity */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url(/2148502993.jpg); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.15; /* Adjust transparency */
+  z-index: -1;
+}
+
+/* Login container */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 55px;
+  position: relative;
+}
+
+/* Login box */
+.login-box {
+  background-color: #20cd8d;
+  position: relative; /* Needed for absolute child positioning */
+  width: 300px;
+  height: 450px;
+  padding: 80px 20px 30px; /* extra top padding to make space for icon */
+  border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo image */
+.logo-top {
+  width: 100px;
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* Form heading */
+h2 {
+  text-align: center;
+  color: white;
+  font-size: 30px;
+  font-family: 'Nunito', sans-serif;
+}
+.login-details{
+  display: flex;
+  flex-direction: column;
+}
+
+#Details{
+  font-size: 20px;
+  font-family: 'Nunito', sans-serif;
+  margin-bottom: -10px;
+}
+input{
+  height: 30px;
+  font-size: 20px;
+  border-radius: 10px;
+  padding-left: 10px;
+  border-style: hidden;
+}
+button{
+  height: 30px;
+  font-size: 20px;
+  border-radius: 10px;
+  border-color: #058b5a;
+  background-color: #06bd64;
+}
+button:hover{
+  background-color: #058b5a;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease; 
+}
+button:active{
+  background-color: #058b5a;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.1s ease; 
+}

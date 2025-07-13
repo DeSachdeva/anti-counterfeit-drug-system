@@ -1,11 +1,14 @@
-from sqlalchemy import Column, Integer, String, DateTime
-from .database import Base
-from datetime import datetime
+from sqlalchemy import Column, Integer, String, Date
+from database import Base
 
 class Drug(Base):
     __tablename__ = "drugs"
+
     id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    drug = Column(String)
     batch_id = Column(String, unique=True, index=True)
-    dna_hash = Column(String, unique=True)
     manufacturer = Column(String)
-    timestamp = Column(DateTime, default=datetime.utcnow)
+    mfg_date = Column(Date)
+    exp_date = Column(Date)
+    hash = Column(String, unique=True, index=True)

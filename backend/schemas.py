@@ -1,15 +1,16 @@
 from pydantic import BaseModel
+from datetime import date
 
-class DrugBase(BaseModel):
+class DrugCreate(BaseModel):
+    name: str
+    drug: str
     batch_id: str
-    dna_hash: str
     manufacturer: str
+    mfg_date: date
+    exp_date: date
 
-class DrugCreate(DrugBase):
-    pass
-
-class DrugOut(DrugBase):
-    id: int
+class DrugOut(DrugCreate):
+    hash: str
 
     class Config:
         orm_mode = True

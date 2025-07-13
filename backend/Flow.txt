@@ -1,0 +1,24 @@
+Manufacturing and registration
+    [Generate DNA] ──▶ [Hash DNA] ──▶ [Attach hash to medicine data] ──▶ [Generate QR Code]
+                                                      │
+                                                      ▼
+                                            [Store all data in DB]
+
+
+User/Pharmacy Scanning Phase
+    [Scan QR Code] ──▶ [Extract JSON (from QR)] ──▶ [Send only hash to /verify API]
+                                                 │
+                                                 ▼
+                                 [Get official data from backend DB]
+                                                 │
+                                                 ▼
+                  Compare: [QR fields] vs [Backend fields] → Tampering detected?
+
+
+Verification Layer
+    [Each Scan] ──▶ Logged in scan_log.json:
+                - hash
+                - timestamp
+                - IP/location
+                - user_agent
+                - status (ok/suspicious)

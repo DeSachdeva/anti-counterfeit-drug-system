@@ -3,8 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Drug Verification API")
 
-origins = ["https://localhost:3000/",
-           "https://127.0.0.1:3000/",
+origins = ["https://aushadhi-rakshak.vercel.app/"
            #add frontend deployment link here
         ]
 

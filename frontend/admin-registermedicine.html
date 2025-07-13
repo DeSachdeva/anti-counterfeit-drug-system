@@ -38,4 +38,46 @@
         </div>
     </div>
 </body>
+
+<script>
+document.querySelector('.register-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const medicineName = document.querySelector('input[name="medicine-name"]').value.trim();
+    const batchNo = document.querySelector('input[name="Batch No:"]').value.trim();
+    const hashCode = document.querySelector('input[name="hash-code"]').value.trim();
+    const expiryDate = document.querySelector('input[name="expiry-date"]').value;
+
+    if (!medicineName || !batchNo || !expiryDate) {
+        alert('Please fill all required fields.');
+        return;
+    }
+
+    const data = {
+        medicine_name: medicineName,
+        batch_no: batchNo,
+        hash_code: hashCode,
+        expiry_date: expiryDate
+    };
+
+    try {
+        const response = await fetch('/api/register-medicine', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            alert('Medicine registered successfully!');
+            document.querySelector('.register-form').reset();
+        } else {
+            const error = await response.json();
+            alert('Error: ' + (error.message || 'Registration failed.'));
+        }
+    } catch (err) {
+        alert('Network error. Please try again.');
+    }
+});
+</script>
+
 </html>

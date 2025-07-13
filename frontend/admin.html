@@ -27,4 +27,29 @@
     </div>
   </div>
 </body>
+
+<script>
+document.getElementById('track-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const hashCode = document.querySelector('input[name="Hash Code"]').value.trim();
+  if (!hashCode) {
+    alert('Please enter a hash code.');
+    return;
+  }
+  // Example: Replace with actual API endpoint
+  fetch(`/api/track?hash=${encodeURIComponent(hashCode)}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert(`Medicine found:\nName: ${data.medicine.name}\nBatch: ${data.medicine.batch}`);
+      } else {
+        alert('Medicine not found or invalid hash code.');
+      }
+    })
+    .catch(() => {
+      alert('Error tracking medicine. Please try again.');
+    });
+});
+</script>
+
 </html>

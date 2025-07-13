@@ -28,4 +28,50 @@
         </div>
     </div>
 </body>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.querySelector('.tm-input');
+    const infoSubtitle = document.querySelector('.tm-subtitle:nth-of-type(2)');
+    const tmDiv = document.querySelector('.tm');
+
+    function displayMedicineInfo(info) {
+        let infoDiv = document.getElementById('medicine-info');
+        if (!infoDiv) {
+            infoDiv = document.createElement('div');
+            infoDiv.id = 'medicine-info';
+            tmDiv.appendChild(infoDiv);
+        }
+        infoDiv.innerHTML = info;
+    }
+
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const hash = input.value.trim();
+            if (!hash) {
+                displayMedicineInfo('<span style="color:red;">Please enter a hash code.</span>');
+                return;
+            }
+            //Replace with actual API call
+            fetch(`/api/medicine/${encodeURIComponent(hash)}`)
+                .then(res => {
+                    if (!res.ok) throw new Error('Not found');
+                    return res.json();
+                })
+                .then(data => {
+                    displayMedicineInfo(`
+                        <strong>Name:</strong> ${data.name}<br>
+                        <strong>Manufacturer:</strong> ${data.manufacturer}<br>
+                        <strong>Expiry:</strong> ${data.expiry}<br>
+                        <strong>Status:</strong> ${data.status}
+                    `);
+                })
+                .catch(() => {
+                    displayMedicineInfo('<span style="color:red;">Medicine not found.</span>');
+                });
+        }
+    });
+});
+</script>
+
 </html>

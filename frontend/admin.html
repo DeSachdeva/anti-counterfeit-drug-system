@@ -10,45 +10,106 @@
 </head>
 <body class="admin">
   <header class="navbar">
-    <i class="fa-solid fa-bars fa-2xl" style="color: white; margin-left: 10px;" ></i>
+    <i class="fa-solid fa-bars fa-2xl bar-icon"></i>
     <div class="navbar-right">
-    <p>ADMIN</p>
-    <img src="logo.png" class="admin-logo" alt="Shield Logo" />
+      <p>ADMIN</p>
+      <img src="logo.png" class="admin-logo" alt="Shield Logo" />
     </div>
   </header>
-  <div class="track-medicine">
+  <div class="admin-toggle-bar">
+    <button id="toggle-track" class="admin-submit">Track Medicine</button>
+    <button onclick="window.location.href='admin-registermedicine.html'" class="admin-submit">Register Medicine</button>
+    <button onclick="window.location.href='admin-login.html'" class="admin-submit admin-logout">Logout</button>
+  </div>
+  <div id="track-section" class="track-medicine">
     <div class="track-container">
       <p class="admin-h1">Track Medicine</p>
-    <form id="track-form">
-      <label for="medicine-id" id="Details" style="font-size: 20px;">Medicine ID</label><br>
-      <input type="text" class="input" name="Medicine ID" placeholder="Enter Medicine ID" required><br>
-      <button class="admin-submit" type="submit">Track</button>
-    </form>
+      <form id="track-form">
+        <label for="medicine-id" id="Details">Medicine ID</label><br>
+        <input type="text" class="input" name="medicine-id" placeholder="Enter Medicine ID" required><br>
+        <button class="admin-submit" type="submit">Track</button>
+      </form>
+    </div>
+  </div>
+  <div id="register-section" class="register-medicine">
+    <div class="register-container">
+      <h1 class="admin-h1">Register Medicine</h1>
+      <form class="register-form" id="register-form">
+        <label id="Details">Medicine Name</label><br>
+        <input type="text" class="input" name="medicine-name" placeholder="Enter Medicine Name" required><br>
+        <label id="Details">Drug</label><br>
+        <input type="text" class="input" name="drug" placeholder="Enter Drug" required><br>
+        <label id="Details">Batch ID</label><br>
+        <input type="text" class="input" name="batch-id" placeholder="Enter Batch ID" required><br>
+        <label id="Details">Manufacturer</label><br>
+        <input type="text" class="input" name="manufacturer" placeholder="Enter Manufacturer" required><br>
+        <label id="Details">Manufacturing Date</label><br>
+        <input type="date" class="input" name="mfg-date" required><br>
+        <label id="Details">Expiry Date</label><br>
+        <input type="date" class="input" name="exp-date" required><br>
+        <button class="admin-submit" type="submit">Register</button>
+      </form>
     </div>
   </div>
 </body>
 
 <script>
-document.getElementById('track-form').addEventListener('submit', function(e) {
+
+// Track form submission (connect to backend)
+document.getElementById('track-form').addEventListener('submit', async function(e) {
   e.preventDefault();
-  const hashCode = document.querySelector('input[name="Hash Code"]').value.trim();
-  if (!hashCode) {
-    alert('Please enter a hash code.');
+  const medId = document.querySelector('input[name="medicine-id"]').value.trim();
+  if (!medId) {
+    alert('Please enter a Medicine ID.');
     return;
   }
-  // Example: Replace with actual API endpoint
-  fetch(`/api/track?hash=${encodeURIComponent(hashCode)}`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert(`Medicine found:\nName: ${data.medicine.name}\nBatch: ${data.medicine.batch}`);
-      } else {
-        alert('Medicine not found or invalid hash code.');
-      }
-    })
-    .catch(() => {
-      alert('Error tracking medicine. Please try again.');
+  try {
+    const response = await fetch(`/drugs/verify/${encodeURIComponent(medId)}`);
+    if (response.ok) {
+      const data = await response.json();
+      alert(`Medicine found:\nName: ${data.name}\nDrug: ${data.drug}\nBatch: ${data.batch_id}`);
+    } else {
+      alert('Medicine not found or invalid ID.');
+    }
+  } catch {
+    alert('Error tracking medicine. Please try again.');
+  }
+});
+
+// Register form submission (connect to backend)
+document.getElementById('register-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = {
+    name: form['medicine-name'].value.trim(),
+    drug: form['drug'].value.trim(),
+    batch_id: form['batch-id'].value.trim(),
+    manufacturer: form['manufacturer'].value.trim(),
+    mfg_date: form['mfg-date'].value,
+    exp_date: form['exp-date'].value
+  };
+  if (!data.name || !data.drug || !data.batch_id || !data.manufacturer || !data.mfg_date || !data.exp_date) {
+    alert('Please fill all fields.');
+    return;
+  }
+  try {
+    const response = await fetch('/drugs/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
     });
+    if (response.ok) {
+      alert('Medicine registered successfully!');
+      form.reset();
+      trackSection.style.display = '';
+      registerSection.style.display = 'none';
+    } else {
+      const error = await response.json();
+      alert('Error: ' + (error.detail || 'Registration failed.'));
+    }
+  } catch {
+    alert('Network error. Please try again.');
+  }
 });
 </script>
 

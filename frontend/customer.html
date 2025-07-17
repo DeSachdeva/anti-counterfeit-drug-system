@@ -48,8 +48,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <script>
 async function fetchMedicineDetails(hashCode) {
-    // Replace with your actual API endpoint
-    const response = await fetch(`/api/medicine?hash=${encodeURIComponent(hashCode)}`);
+    const response = await fetch('http://127.0.0.1:8000/drugs/verify/' + encodeURIComponent(hashCode));
     if (!response.ok) return null;
     return await response.json();
 }
@@ -63,6 +62,27 @@ function showMedicineDetails(details, verified) {
         <tr><td>Expiry Date:</td><td>${details.expiry || '-'}</td></tr>
         <tr><td>Status:</td><td>${verified ? 'Verified ✅' : 'Not Verified ❌'}</td></tr>
     `;
+}
+
+function normalizeDate(dateStr) {
+    if (!dateStr) return '';
+    return dateStr.split('T')[0];
+}
+
+function trimOrEmpty(val) {
+    return (typeof val === 'string') ? val.trim() : val;
+}
+
+function compareFields(a, b) {
+    const mismatches = [];
+    if (trimOrEmpty(a.name) !== trimOrEmpty(b.name)) mismatches.push(`name: '${a.name}' vs '${b.name}'`);
+    if (trimOrEmpty(a.drug) !== trimOrEmpty(b.drug)) mismatches.push(`drug: '${a.drug}' vs '${b.drug}'`);
+    if (trimOrEmpty(a.batch_id) !== trimOrEmpty(b.batch_id)) mismatches.push(`batch_id: '${a.batch_id}' vs '${b.batch_id}'`);
+    if (trimOrEmpty(a.manufacturer) !== trimOrEmpty(b.manufacturer)) mismatches.push(`manufacturer: '${a.manufacturer}' vs '${b.manufacturer}'`);
+    if (normalizeDate(a.mfg_date) !== normalizeDate(b.mfg_date)) mismatches.push(`mfg_date: '${a.mfg_date}' vs '${b.mfg_date}'`);
+    if (normalizeDate(a.exp_date) !== normalizeDate(b.exp_date)) mismatches.push(`exp_date: '${a.exp_date}' vs '${b.exp_date}'`);
+    if (trimOrEmpty(a.hash) !== trimOrEmpty(b.hash)) mismatches.push(`hash: '${a.hash}' vs '${b.hash}'`);
+    return mismatches;
 }
 
 document.querySelector('.hash-btn').addEventListener('click', async () => {
@@ -142,7 +162,29 @@ document.querySelector('.fa-qrcode').addEventListener('click', async () => {
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const code = jsQR(imageData.data, canvas.width, canvas.height);
                 if (code && code.data) {
-                    document.querySelector('.hash-input').value = code.data;
+                    let qrDetails;
+                    try {
+                        qrDetails = JSON.parse(code.data);
+                    } catch {
+                        alert('Invalid QR code format.');
+                        scanning = false;
+                        stream.getTracks().forEach(track => track.stop());
+                        document.body.removeChild(overlay);
+                        return;
+                    }
+                    const backendDetails = await fetchMedicineDetails(qrDetails.hash);
+                    console.log('QR details:', qrDetails);
+                    console.log('Backend details:', backendDetails);
+                    let mismatches = [];
+                    let verified = false;
+                    if (backendDetails) {
+                        mismatches = compareFields(backendDetails, qrDetails);
+                        verified = mismatches.length === 0;
+                    }
+                    showMedicineDetails(backendDetails || {}, verified);
+                    if (!verified) {
+                        alert('Medicine details do not match. Not Verified!\n' + (mismatches.length ? 'Mismatches:\n' + mismatches.join('\n') : ''));
+                    }
                     scanning = false;
                     stream.getTracks().forEach(track => track.stop());
                     document.body.removeChild(overlay);
@@ -178,7 +220,26 @@ document.querySelector('.fa-qrcode').addEventListener('click', async () => {
                     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                     const code = jsQR(imageData.data, canvas.width, canvas.height);
                     if (code && code.data) {
-                        document.querySelector('.hash-input').value = code.data;
+                        let qrDetails;
+                        try {
+                            qrDetails = JSON.parse(code.data);
+                        } catch {
+                            alert('Invalid QR code format.');
+                            return;
+                        }
+                        const backendDetails = await fetchMedicineDetails(qrDetails.hash);
+                        console.log('QR details:', qrDetails);
+                        console.log('Backend details:', backendDetails);
+                        let mismatches = [];
+                        let verified = false;
+                        if (backendDetails) {
+                            mismatches = compareFields(backendDetails, qrDetails);
+                            verified = mismatches.length === 0;
+                        }
+                        showMedicineDetails(backendDetails || {}, verified);
+                        if (!verified) {
+                            alert('Medicine details do not match. Not Verified!\n' + (mismatches.length ? 'Mismatches:\n' + mismatches.join('\n') : ''));
+                        }
                     } else {
                         alert('QR code not detected.');
                     }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
     <link rel="stylesheet" href="admin-style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body class="admin">
     <header class="navbar">
@@ -21,20 +21,23 @@
             Register Medicine
         </h1>
         <form class="register-form">
-            <label class="label"for="medicine-id">Medicine ID:</label><br>
-            <input type="text" class="input" name="Medicine ID:" placeholder="Enter Medicine ID" required><br>
-
-            <label class="label"  for="medicine-name">Medicine Name:</label><br>
-            <input type="text" class="input" name="medicine-name" placeholder="Enter Medicine Name" required><br>
+            <label for="medicine-name" class="register-label">Medicine Name:</label><br>
+            <input type="text" class="input" name="medicine-name" id="medicine-name" placeholder="Enter Medicine Name" required><br>
             
-            <label class="label"for="batch_id">Batch ID:</label><br>
-            <input type="text" class="input" name="Batch ID:" placeholder="Enter Batch ID:" required><br>
+            <label for="drug" class="register-label">Drug:</label><br>
+            <input type="text" class="input" name="drug" id="drug" placeholder="Enter Drug" required><br>
             
-            <label class="label" for="hash-code">Manufacturing Date:</label><br>
-            <input type="date" class="input" name="mfg-date" required><br>
+            <label for="batch-id" class="register-label">Batch ID:</label><br>
+            <input type="text" class="input" name="batch-id" id="batch-id" placeholder="Enter Batch ID" required><br>
+            
+            <label for="manufacturer" class="register-label">Manufacturer:</label><br>
+            <input type="text" class="input" name="manufacturer" id="manufacturer" placeholder="Enter Manufacturer" required><br>
+            
+            <label for="mfg-date" class="register-label">Manufacturing Date:</label><br>
+            <input type="date" class="input" name="mfg-date" id="mfg-date" title="Select Manufacturing Date" required><br>
 
-            <label class="label" for="expiry-date">Expiry Date:</label><br>
-            <input type="date" class="input" name="exp-date" required><br>
+            <label for="exp-date" class="register-label">Expiry Date:</label><br>
+            <input type="date" class="input" name="exp-date" id="exp-date" title="Select Expiry Date" required><br>
             
             <button class="admin-submit" type="submit">Register</button>
         </form>
@@ -45,42 +48,43 @@
 <script>
 document.querySelector('.register-form').addEventListener('submit', async function(e) {
     e.preventDefault();
-
-    const medicineName = document.querySelector('input[name="medicine-name"]').value.trim();
-    const batchNo = document.querySelector('input[name="Batch No:"]').value.trim();
-    const hashCode = document.querySelector('input[name="hash-code"]').value.trim();
-    const expiryDate = document.querySelector('input[name="expiry-date"]').value;
-
-    if (!medicineName || !batchNo || !expiryDate) {
+    const form = e.target;
+    const data = {
+        name: form['medicine-name'].value.trim(),
+        drug: form['drug'].value.trim(),
+        batch_id: form['batch-id'].value.trim(),
+        manufacturer: form['manufacturer'].value.trim(),
+        mfg_date: form['mfg-date'].value,
+        exp_date: form['exp-date'].value
+    };
+    if (!data.name || !data.drug || !data.batch_id || !data.manufacturer || !data.mfg_date || !data.exp_date) {
         alert('Please fill all required fields.');
         return;
     }
-
-    const data = {
-        medicine_name: medicineName,
-        batch_no: batchNo,
-        hash_code: hashCode,
-        expiry_date: expiryDate
-    };
-
     try {
-        const response = await fetch('/api/register-medicine', {
+        const response = await fetch('http://127.0.0.1:8000/drugs/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
-
         if (response.ok) {
             alert('Medicine registered successfully!');
-            document.querySelector('.register-form').reset();
+            form.reset();
         } else {
             const error = await response.json();
-            alert('Error: ' + (error.message || 'Registration failed.'));
+            alert('Error: ' + (error.detail || 'Registration failed.'));
         }
     } catch (err) {
         alert('Network error. Please try again.');
     }
 });
 </script>
+
+<style>
+.register-label {
+  font-size: 20px;
+  font-family: "Nunito", sans-serif;
+}
+</style>
 
 </html>

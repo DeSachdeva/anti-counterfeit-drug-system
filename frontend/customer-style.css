@@ -163,3 +163,17 @@ button:active {
 .med-info-table td:last-child {
   text-align: left;
 }
+
+/* Icon and button style fixes from inline */
+.bar-icon {
+  color: white;
+  margin-left: 10px;
+}
+
+.qr-icon {
+  color: #b8b8b8;
+}
+
+.report {
+  color: rgb(171, 4, 4);
+}

@@ -6,8 +6,9 @@ from routes import drugs
 
 app = FastAPI(title="Aushadhi Rakshak")
 
+
 origins = [
-    
+    "http://127.0.0.1:3000",
     "https://aushadhi-rakshak.vercel.app"
 ]
 

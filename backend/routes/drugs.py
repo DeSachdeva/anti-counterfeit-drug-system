@@ -17,12 +17,12 @@ def get_db():
 
 @router.post("/register", response_model=DrugOut)
 def register_drug(drug: DrugCreate, db: Session = Depends(get_db)):
-    db_drug = db.query(drug).filter(drug.id == drug.id).first()
-    if db_drug:
-        raise HTTPException(status_code=400, detail="ID already registered")
+    # Check for existing batch_id or hash
+    if db.query(Drug).filter(Drug.batch_id == drug.batch_id).first():
+        raise HTTPException(status_code=400, detail="Batch ID already registered")
+    # Optionally, check for name+drug+manufacturer combo if needed
 
-    new_drug = drug(
-        id=drug.id,
+    new_drug = Drug(
         name=drug.name,
         drug=drug.drug,
         batch_id=drug.batch_id,
@@ -42,8 +42,8 @@ def register_drug(drug: DrugCreate, db: Session = Depends(get_db)):
         "drug": new_drug.drug,
         "batch_id": new_drug.batch_id,
         "manufacturer": new_drug.manufacturer,
-        "mfg_date": str(new_drug.mfg_date),
-        "exp_date": str(new_drug.exp_date),
+        "mfg_date": new_drug.mfg_date.strftime("%Y-%m-%d") if hasattr(new_drug.mfg_date, 'strftime') else str(new_drug.mfg_date),
+        "exp_date": new_drug.exp_date.strftime("%Y-%m-%d") if hasattr(new_drug.exp_date, 'strftime') else str(new_drug.exp_date),
         "hash": new_drug.hash
     }
 
@@ -53,7 +53,7 @@ def register_drug(drug: DrugCreate, db: Session = Depends(get_db)):
 
 @router.get("/verify/{dna_hash}", response_model=DrugOut)
 def verify_dna(dna_hash: str, db: Session = Depends(get_db)):
-    drug = db.query(drug).filter(drug.hash == dna_hash).first()
+    drug = db.query(Drug).filter(Drug.hash == dna_hash).first()
     if not drug:
         raise HTTPException(status_code=404, detail="Drug not found")
     return drug

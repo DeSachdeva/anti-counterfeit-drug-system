@@ -8,7 +8,6 @@ class DrugCreate(BaseModel):
     manufacturer: str
     mfg_date: date
     exp_date: date
-    hash: str
 
 class DrugOut(DrugCreate):
     id: int

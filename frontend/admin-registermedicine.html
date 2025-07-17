@@ -15,23 +15,26 @@
       <img src="logo.png" class="admin-logo" alt="Shield Logo" />
       </div>
     </header>
-    <div class="register-medicine-cnt">
-        <div class="register-medicine">
+    <div class="register-medicine">
+        <div class="register-container">
         <h1 class="admin-h1">
             Register Medicine
         </h1>
         <form class="register-form">
+            <label class="label"for="medicine-id">Medicine ID:</label><br>
+            <input type="text" class="input" name="Medicine ID:" placeholder="Enter Medicine ID" required><br>
+
             <label class="label"  for="medicine-name">Medicine Name:</label><br>
             <input type="text" class="input" name="medicine-name" placeholder="Enter Medicine Name" required><br>
             
-            <label class="label"for="medicine-id">Batch No:</label><br>
-            <input type="text" class="input" name="Batch No:" placeholder="Enter Batch No:" required><br>
+            <label class="label"for="batch_id">Batch ID:</label><br>
+            <input type="text" class="input" name="Batch ID:" placeholder="Enter Batch ID:" required><br>
             
-            <label class="label" for="hash-code">Hash Code:</label><br>
-            <input type="text" class="input" name="hash-code"  placeholder="Enter hash-code"><br>
+            <label class="label" for="hash-code">Manufacturing Date:</label><br>
+            <input type="date" class="input" name="mfg-date" required><br>
 
             <label class="label" for="expiry-date">Expiry Date:</label><br>
-            <input type="date" class="input" name="expiry-date" required><br>
+            <input type="date" class="input" name="exp-date" required><br>
             
             <button class="admin-submit" type="submit">Register</button>
         </form>

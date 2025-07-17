@@ -1,68 +1,81 @@
-
-.admin{
-    margin: 0;
-    background-color: #182527;
+.admin {
+  margin: 0;
+  background-color: #182527;
 }
 body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url(/2148502993.jpg); /* Replace with your image path */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.15; /* Adjust transparency */
-    z-index: -1;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url(/2148502993.jpg); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.15; /* Adjust transparency */
+  z-index: -1;
 }
-.navbar{
-    background-color: #20cd8d;
-    width: 100%;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  
-  }
-.admin-logo{
-    width: 50px;
-    margin-right: 10px;
-  }
-.navbar-right{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-family: 'Nunito', sans-serif;
-    font-size: 25px;
-  }
-.track-medicine{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 55px;
-  }
-.track-container{
-    background-color: #20cd8d;
-    height: 300px;
-    border-radius: 30px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-  }
-.admin-h1{
-    font-family: 'Nunito', sans-serif;
-    color: white;
-    font-size: 35px;
-    text-align: center;
-    padding: 20px;
-    margin-top: 0px;
-    
-  }
-#Details{
-  font-family: 'Nunito', sans-serif;
+.navbar {
+  background-color: #20cd8d;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.admin-logo {
+  width: 50px;
+  margin-right: 10px;
+}
+.navbar-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: "Nunito", sans-serif;
+  font-size: 25px;
+}
+.track-medicine {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 55px;
+}
+.track-container {
+  background-color: #20cd8d;
+  height: 300px;
+  border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+.admin-h1 {
+  font-family: "Nunito", sans-serif;
+  color: white;
+  font-size: 35px;
+  text-align: center;
+  padding: 20px;
+  margin-top: 0px;
+}
+
+.register-medicine {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 55px;
+}
+.register-container {
+  background-color: #20cd8d;
+  height: 420px;
+  border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+#Details {
+  font-family: "Nunito", sans-serif;
   margin-left: 20px;
-  }
-input{
+}
+input {
   margin-left: 20px;
   height: 30px;
   font-size: 20px;
@@ -70,7 +83,7 @@ input{
   border-style: hidden;
   width: 230px;
 }
-button{
+button {
   height: 30px;
   font-size: 20px;
   border-radius: 10px;
@@ -81,15 +94,15 @@ button{
   padding-right: 20px;
   background-color: #06bd64;
 }
-button:hover{
+button:hover {
   background-color: #058b5a;
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease; 
+  transition: background-color 0.3s ease;
 }
-button:active{
+button:active {
   background-color: #058b5a;
   color: white;
   cursor: pointer;
-  transition: background-color 0.1s ease; 
+  transition: background-color 0.1s ease;
 }

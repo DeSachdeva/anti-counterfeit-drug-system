@@ -5,12 +5,14 @@ import os
 from hash_dna import generate_dna, hash_dna
 
 def generate_qr(qr_data: dict, id: int):
+    import io, base64
     qr = qrcode.make(json.dumps(qr_data))
-    qr_dir = "qr_codes"
-    os.makedirs(qr_dir, exist_ok=True)
-    qr_path = os.path.join(qr_dir, f"{id}_qr.png")
-    qr.save(qr_path)
-    return
+    import io, base64
+    buf = io.BytesIO()
+    qr.save(buf, format='PNG')
+    img_bytes = buf.getvalue()
+    img_b64 = base64.b64encode(img_bytes).decode('utf-8')
+    return img_b64
 
 if __name__ == "__main__":
     dna = generate_dna()

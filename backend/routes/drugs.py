@@ -15,7 +15,33 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/register", response_model=DrugOut)
+from schemas import DrugOutWithQR
+
+@router.delete("/admin/delete_all_drugs")
+def delete_all_drugs(db: Session = Depends(get_db)):
+    db.query(Drug).delete()
+    db.commit()
+    return {"message": "All drugs deleted."}
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from database import SessionLocal
+from models import Drug
+from schemas import DrugCreate, DrugOut
+from qr_generator import generate_qr
+from hash_dna import hashed_dna
+
+router = APIRouter()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+from schemas import DrugOutWithQR
+
+@router.post("/register", response_model=DrugOutWithQR)
 def register_drug(drug: DrugCreate, db: Session = Depends(get_db)):
     # Check for existing batch_id or hash
     if db.query(Drug).filter(Drug.batch_id == drug.batch_id).first():
@@ -47,9 +73,12 @@ def register_drug(drug: DrugCreate, db: Session = Depends(get_db)):
         "hash": new_drug.hash
     }
 
-    generate_qr(qr_data, new_drug.id)
+    qr_b64 = generate_qr(qr_data, new_drug.id)
 
-    return new_drug
+    # Return drug info plus QR code base64
+    result = new_drug.__dict__.copy()
+    result['qr_code_base64'] = qr_b64
+    return result
 
 @router.get("/verify/{dna_hash}", response_model=DrugOut)
 def verify_dna(dna_hash: str, db: Session = Depends(get_db)):

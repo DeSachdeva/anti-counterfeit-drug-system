@@ -63,14 +63,28 @@ document.querySelector('.register-form').addEventListener('submit', async functi
         return;
     }
     try {
-        const response = await fetch('http://15.207.21.154/drugs/register', {
+        const response = await fetch('http://127.0.0.1:8000/drugs/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
         if (response.ok) {
+            const result = await response.json();
+            console.log('Register response:', result);
             alert('Medicine registered successfully!');
             form.reset();
+            // Download QR code
+            if (result.qr_code_base64) {
+                const link = document.createElement('a');
+                link.href = 'data:image/png;base64,' + result.qr_code_base64;
+                link.download = 'medicine_qr.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                alert('QR code downloaded!');
+            } else {
+                alert('No QR code found in response.');
+            }
         } else {
             const error = await response.json();
             alert('Error: ' + (error.detail || 'Registration failed.'));

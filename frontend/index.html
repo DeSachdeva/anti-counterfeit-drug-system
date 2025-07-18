@@ -152,48 +152,21 @@ document.querySelector('.fa-qrcode').addEventListener('click', async () => {
                     const backendDetails = await fetchMedicineDetails(qrDetails.hash);
                     let verified = false;
 
-                    try {
-                        if (!backendDetails) throw new Error("No backend data found.");
-
-                        if (backendDetails.name !== qrDetails.name) {
-                            throw new Error(`Name mismatch:\nExpected "${backendDetails.name}", got "${qrDetails.name}"`);
-                        }
-
-                        if (backendDetails.drug !== qrDetails.drug) {
-                            throw new Error(`Drug mismatch:\nExpected "${backendDetails.drug}", got "${qrDetails.drug}"`);
-                        }
-
-                        if (backendDetails.batch_id !== qrDetails.batch_id) {
-                            throw new Error(`Batch ID mismatch:\nExpected "${backendDetails.batch_id}", got "${qrDetails.batch_id}"`);
-                        }
-
-                        if (backendDetails.manufacturer !== qrDetails.manufacturer) {
-                            throw new Error(`Manufacturer mismatch:\nExpected "${backendDetails.manufacturer}", got "${qrDetails.manufacturer}"`);
-                        }
-
-                        if (String(backendDetails.mfg_date) !== String(qrDetails.mfg_date)) {
-                            throw new Error(`Manufacturing date mismatch:\nExpected "${backendDetails.mfg_date}", got "${qrDetails.mfg_date}"`);
-                        }
-
-                        if (String(backendDetails.exp_date) !== String(qrDetails.exp_date)) {
-                            throw new Error(`Expiry date mismatch:\nExpected "${backendDetails.exp_date}", got "${qrDetails.exp_date}"`);
-                        }
-
-                        if (backendDetails.hash !== qrDetails.hash) {
-                            alert(typeof(backendDetails.hash))
-                            throw new Error(`Hash mismatch:\nExpected "${backendDetails.hash}", got "${qrDetails.hash}"`);
-                        }
-
-                        verified = true;
-
-                    } catch (error) {
-                        alert(`Verification failed:\n${error.message}`);
+                    if (backendDetails) {
+                        verified = (
+                            backendDetails.name === qrDetails.name &&
+                            backendDetails.drug === qrDetails.drug &&
+                            backendDetails.batch_id === qrDetails.batch_id &&
+                            backendDetails.manufacturer === qrDetails.manufacturer &&
+                            String(backendDetails.mfg_date) === String(qrDetails.mfg_date) &&
+                            String(backendDetails.exp_date) === String(qrDetails.exp_date)
+                        );
                     }
 
                     showMedicineDetails(backendDetails || {}, verified);
 
-                    if (verified) {
-                    alert("✅ Medicine Verified Successfully!");
+                      if (!verified) {
+                        alert('Medicine details do not match. Not Verified!');
                     }
                     scanning = false;
                     stream.getTracks().forEach(track => track.stop());

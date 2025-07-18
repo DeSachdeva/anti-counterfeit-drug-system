@@ -1,0 +1,104 @@
+Folder PATH listing for volume Data
+Volume serial number is 5ACC-B5C9
+D:.
+�   .gitignore
+�   folder-structure.txt
+�   LICENSE
+�   medicine_qr.png
+�   README.md
+�   uvicorn
+�   
++---.git
+�   �   COMMIT_EDITMSG
+�   �   config
+�   �   description
+�   �   FETCH_HEAD
+�   �   HEAD
+�   �   index
+�   �   ORIG_HEAD
+�   �   packed-refs
+�   �   
+�   +---hooks
+�   �       applypatch-msg.sample
+�   �       commit-msg.sample
+�   �       fsmonitor-watchman.sample
+�   �       post-update.sample
+�   �       pre-applypatch.sample
+�   �       pre-commit.sample
+�   �       pre-merge-commit.sample
+�   �       pre-push.sample
+�   �       pre-rebase.sample
+�   �       pre-receive.sample
+�   �       prepare-commit-msg.sample
+�   �       push-to-checkout.sample
+�   �       sendemail-validate.sample
+�   �       update.sample
+�   �       
+�   +---info
+�   �       exclude
+�   �       
+�   +---logs
+�   �   �   HEAD
+�   �   �   
+�   �   +---refs
+�   �       +---heads
+�   �       �       main
+�   �       �       
+�   �       +---remotes
+�   �           +---origin
+�   �                   HEAD
+�   �                   main
+�   �                   
+�   +---objects
+                so much here in objects
+�   �           
+�   +---refs
+�       +---heads
+�       �       main
+�       �       
+�       +---remotes
+�       �   +---origin
+�       �           HEAD
+�       �           main
+�       �           
+�       +---tags
++---backend
+�   �   create_db.py
+�   �   database.py
+�   �   dna_generator.py
+�   �   drugs.db
+�   �   Flow.txt
+�   �   hash_dna.py
+�   �   main.py
+�   �   models.py
+�   �   qr_generator.py
+�   �   requirements.txt
+�   �   schemas.py
+�   �   
+�   +---routes
+�   �   �   drugs.py
+�   �   �   
+�   �   +---__pycache__
+�   �           drugs.cpython-313.pyc
+�   �           
+�   +---__pycache__
+�           database.cpython-313.pyc
+�           dna_generator.cpython-313.pyc
+�           hash_dna.cpython-313.pyc
+�           main.cpython-313.pyc
+�           models.cpython-313.pyc
+�           qr_generator.cpython-313.pyc
+�           schemas.cpython-313.pyc
+�           
++---frontend
+        2148502993.jpg
+        admin-login.html
+        admin-registermedicine.html
+        admin-style.css
+        admin.html
+        customer-style.css
+        customer.html
+        index.html
+        logo.png
+        style.css
+        

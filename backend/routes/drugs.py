@@ -1,8 +1,9 @@
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import SessionLocal
 from models import Drug
-from schemas import DrugCreate, DrugOut
+from schemas import DrugCreate, DrugOut, DrugOutWithQR
 from qr_generator import generate_qr
 from hash_dna import hashed_dna
 
@@ -14,32 +15,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-from schemas import DrugOutWithQR
-
-@router.delete("/admin/delete_all_drugs")
-def delete_all_drugs(db: Session = Depends(get_db)):
-    db.query(Drug).delete()
-    db.commit()
-    return {"message": "All drugs deleted."}
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from database import SessionLocal
-from models import Drug
-from schemas import DrugCreate, DrugOut
-from qr_generator import generate_qr
-from hash_dna import hashed_dna
-
-router = APIRouter()
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-from schemas import DrugOutWithQR
 
 @router.post("/register", response_model=DrugOutWithQR)
 def register_drug(drug: DrugCreate, db: Session = Depends(get_db)):

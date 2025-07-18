@@ -24,8 +24,8 @@ if __name__ == "__main__":
         "drug": "Paracetamol",
         "batch_id": "BATCH12345",
         "manufacturer": "XYZ Pharma Pvt Ltd",
-        "mfg_date": "2024-07-01",
-        "exp_date": "2026-07-01",
+        "mfg_date": "01-07-2026",
+        "exp_date": "01-07-2026",
         "hash": hash_value
     }
 

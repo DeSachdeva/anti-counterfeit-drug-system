@@ -113,3 +113,21 @@ button:active {
   color: white;
   transform: scale(0.98);
 }
+
+/* Admin Login Button */
+.admin-login-btn {
+  margin-top: 25px;
+  padding: 10px 30px;
+  font-size: 20px;
+  border-radius: 12px;
+  border: 2px solid #20cd8d;
+  background-color: #182527;
+  color: #20cd8d;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+.admin-login-btn:hover {
+  background-color: #20cd8d;
+  color: #182527;
+}

@@ -64,7 +64,7 @@ document.getElementById('track-form').addEventListener('submit', async function(
     return;
   }
   try {
-    const response = await fetch(`http://15.207.21.154/drugs/verify/${encodeURIComponent(medId)}`);
+    const response = await fetch(`https://aushadhirakshak.onrender.com/verify/${encodeURIComponent(medId)}`);
     if (response.ok) {
       const data = await response.json();
       alert(`Medicine found:\nName: ${data.name}\nDrug: ${data.drug}\nBatch: ${data.batch_id}`);
@@ -92,7 +92,7 @@ document.getElementById('register-form').addEventListener('submit', async functi
     return;
   }
   try {
-    const response = await fetch('http://15.207.21.154/drugs/register', {
+    const response = await fetch('https://aushadhirakshak.onrender.com/drugs/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

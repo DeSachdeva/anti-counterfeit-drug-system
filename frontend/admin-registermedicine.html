@@ -63,7 +63,7 @@ document.querySelector('.register-form').addEventListener('submit', async functi
         return;
     }
     try {
-        const response = await fetch('http://127.0.0.1:8000/drugs/register', {
+        const response = await fetch('https://aushadhirakshak.onrender.com/drugs/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -73,7 +73,7 @@ document.querySelector('.register-form').addEventListener('submit', async functi
             console.log('Register response:', result);
             alert('Medicine registered successfully!');
             form.reset();
-            // Download QR code
+
             if (result.qr_code_base64) {
                 const link = document.createElement('a');
                 link.href = 'data:image/png;base64,' + result.qr_code_base64;

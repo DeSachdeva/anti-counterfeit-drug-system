@@ -18,7 +18,6 @@ if __name__ == "__main__":
     dna = generate_dna()
     hash_value = hash_dna(dna)
 
-    # Collect all details to include in QR
     medicine_data = {
         "id": "081782",
         "name": "Paracetamol 500mg",

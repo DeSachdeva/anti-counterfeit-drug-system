@@ -43,10 +43,9 @@ from schemas import DrugOutWithQR
 
 @router.post("/register", response_model=DrugOutWithQR)
 def register_drug(drug: DrugCreate, db: Session = Depends(get_db)):
-    # Check for existing batch_id or hash
+
     if db.query(Drug).filter(Drug.batch_id == drug.batch_id).first():
         raise HTTPException(status_code=400, detail="Batch ID already registered")
-    # Optionally, check for name+drug+manufacturer combo if needed
 
     new_drug = Drug(
         name=drug.name,
@@ -75,7 +74,7 @@ def register_drug(drug: DrugCreate, db: Session = Depends(get_db)):
 
     qr_b64 = generate_qr(qr_data, new_drug.id)
 
-    # Return drug info plus QR code base64
+
     result = new_drug.__dict__.copy()
     result['qr_code_base64'] = qr_b64
     return result

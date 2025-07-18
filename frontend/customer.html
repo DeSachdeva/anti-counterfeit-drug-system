@@ -48,7 +48,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <script>
 async function fetchMedicineDetails(hashCode) {
-    const response = await fetch('http://127.0.0.1:8000/drugs/verify/' + encodeURIComponent(hashCode));
+    const response = await fetch('http://15.207.21.154/drugs/verify/' + encodeURIComponent(hashCode));
     if (!response.ok) return null;
     return await response.json();
 }

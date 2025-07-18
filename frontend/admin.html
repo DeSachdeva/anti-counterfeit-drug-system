@@ -55,7 +55,6 @@
 
 <script>
 
-// Track form submission (connect to backend)
 document.getElementById('track-form').addEventListener('submit', async function(e) {
   e.preventDefault();
   const medId = document.querySelector('input[name="medicine-id"]').value.trim();
@@ -64,7 +63,7 @@ document.getElementById('track-form').addEventListener('submit', async function(
     return;
   }
   try {
-    const response = await fetch(`/drugs/verify/${encodeURIComponent(medId)}`);
+    const response = await fetch(`http://15.207.21.154/drugs/verify/${encodeURIComponent(medId)}`);
     if (response.ok) {
       const data = await response.json();
       alert(`Medicine found:\nName: ${data.name}\nDrug: ${data.drug}\nBatch: ${data.batch_id}`);
@@ -76,7 +75,6 @@ document.getElementById('track-form').addEventListener('submit', async function(
   }
 });
 
-// Register form submission (connect to backend)
 document.getElementById('register-form').addEventListener('submit', async function(e) {
   e.preventDefault();
   const form = e.target;
@@ -93,7 +91,7 @@ document.getElementById('register-form').addEventListener('submit', async functi
     return;
   }
   try {
-    const response = await fetch('/drugs/register', {
+    const response = await fetch('http://15.207.21.154/drugs/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

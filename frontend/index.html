@@ -51,7 +51,7 @@
 <script>
 
 async function fetchMedicineDetails(hash) {
-    const response = await fetch('https://aushadhirakshak.onrender.com/drugs/verify/' + encodeURIComponent(hash));
+    const response = await fetch('https://aushadhirakshak.onrender.com//drugs/verify/' + encodeURIComponent(hash));
     if (!response.ok) return null;
     return await response.json();
 }
@@ -180,6 +180,7 @@ document.querySelector('.fa-qrcode').addEventListener('click', async () => {
                         }
 
                         if (backendDetails.hash !== qrDetails.hash) {
+                            alert(typeof(qrDetails.hash))
                             throw new Error(`Hash mismatch:\nExpected "${backendDetails.hash}", got "${qrDetails.hash}"`);
                         }
 

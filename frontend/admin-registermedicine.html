@@ -58,6 +58,7 @@ document.querySelector('.register-form').addEventListener('submit', async functi
         mfg_date: form['mfg-date'].value,
         exp_date: form['exp-date'].value
     };
+
     if (!data.name || !data.drug || !data.batch_id || !data.manufacturer || !data.mfg_date || !data.exp_date) {
         alert('Please fill all required fields.');
         return;

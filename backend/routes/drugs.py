@@ -42,8 +42,8 @@ def register_drug(drug: DrugCreate, db: Session = Depends(get_db)):
         "drug": new_drug.drug,
         "batch_id": new_drug.batch_id,
         "manufacturer": new_drug.manufacturer,
-        "mfg_date": new_drug.mfg_date.strftime("%d-%m-%Y") if hasattr(new_drug.mfg_date, 'strftime') else str(new_drug.mfg_date),
-        "exp_date": new_drug.exp_date.strftime("%d-%m-%Y") if hasattr(new_drug.exp_date, 'strftime') else str(new_drug.exp_date),
+        "mfg_date": new_drug.mfg_date.strftime("%Y-%m-%d") if hasattr(new_drug.mfg_date, 'strftime') else str(new_drug.mfg_date),
+        "exp_date": new_drug.exp_date.strftime("%Y-%m-%d") if hasattr(new_drug.exp_date, 'strftime') else str(new_drug.exp_date),
         "hash": new_drug.hash
     }
 

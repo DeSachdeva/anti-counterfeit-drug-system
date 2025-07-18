@@ -1,8 +1,6 @@
 fastapi
 uvicorn
 pydantic
-typing
 sqlalchemy
 python-multipart
-hashlib
 qrcode

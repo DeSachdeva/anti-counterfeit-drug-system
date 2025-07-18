@@ -180,7 +180,7 @@ document.querySelector('.fa-qrcode').addEventListener('click', async () => {
                         }
 
                         if (backendDetails.hash !== qrDetails.hash) {
-                            alert(typeof(qrDetails.hash))
+                            alert(typeof(backendDetails.hash))
                             throw new Error(`Hash mismatch:\nExpected "${backendDetails.hash}", got "${qrDetails.hash}"`);
                         }
 

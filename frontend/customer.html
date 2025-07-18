@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Customer</title>
+  <title>Aushadhi Rakshak</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <link rel="stylesheet" href="customer-style.css" />
 </head>
@@ -160,21 +161,36 @@ document.querySelector('.fa-qrcode').addEventListener('click', async () => {
                 canvas.height = video.videoHeight;
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const code = jsQR(imageData.data, canvas.width, canvas.height);
+                let code;
+                try {
+                    code = jsQR(imageData.data, canvas.width, canvas.height);
+                } catch (err) {
+                    console.error('jsQR error:', err);
+                    alert('jsQR error: ' + err);
+                }
+                alert('jsQR result: ' + JSON.stringify(code));
                 if (code && code.data) {
                     let qrDetails;
                     try {
                         qrDetails = JSON.parse(code.data);
-                    } catch {
+                    } catch (err) {
+                        console.error('QR JSON parse error:', err, code.data);
+                        alert('QR JSON parse error: ' + err + '\n' + code.data);
                         alert('Invalid QR code format.');
                         scanning = false;
                         stream.getTracks().forEach(track => track.stop());
                         document.body.removeChild(overlay);
                         return;
                     }
-                    const backendDetails = await fetchMedicineDetails(qrDetails.hash);
-                    console.log('QR details:', qrDetails);
-                    console.log('Backend details:', backendDetails);
+                    let backendDetails;
+                    try {
+                        backendDetails = await fetchMedicineDetails(qrDetails.hash);
+                    } catch (err) {
+                        console.error('Backend fetch error:', err);
+                        alert('Backend fetch error: ' + err);
+                    }
+                    alert('QR details: ' + JSON.stringify(qrDetails));
+                    alert('Backend details: ' + JSON.stringify(backendDetails));
                     let mismatches = [];
                     let verified = false;
                     if (backendDetails) {

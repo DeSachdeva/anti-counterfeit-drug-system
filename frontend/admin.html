@@ -1,115 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin | Aushadhi Rakshak</title>
-  <link rel="icon" type="image/x-icon" href="logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="admin-style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Aushadhi Rakshak</title>
+    <link rel="icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="admin-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body class="admin">
-  <header class="navbar">
-    <i class="fa-solid fa-bars fa-2xl bar-icon"></i>
-    <div class="navbar-right">
+    <header class="navbar">
+      <i class="fa-solid fa-bars fa-2xl" style="color: white; margin-left: 10px;" ></i>
+      <div class="navbar-right">
       <p>ADMIN</p>
       <img src="logo.png" class="admin-logo" alt="Shield Logo" />
+      </div>
+    </header>
+    <div class="register-medicine">
+        <div class="register-container">
+        <h1 class="admin-h1">
+            Register Medicine
+        </h1>
+        <form class="register-form">
+            <label for="medicine-name" class="register-label">Medicine Name:</label><br>
+            <input type="text" class="input" name="medicine-name" id="medicine-name" placeholder="Enter Medicine Name" required><br>
+            
+            <label for="drug" class="register-label">Drug:</label><br>
+            <input type="text" class="input" name="drug" id="drug" placeholder="Enter Drug" required><br>
+            
+            <label for="batch-id" class="register-label">Batch ID:</label><br>
+            <input type="text" class="input" name="batch-id" id="batch-id" placeholder="Enter Batch ID" required><br>
+            
+            <label for="manufacturer" class="register-label">Manufacturer:</label><br>
+            <input type="text" class="input" name="manufacturer" id="manufacturer" placeholder="Enter Manufacturer" required><br>
+            
+            <label for="mfg-date" class="register-label">Manufacturing Date:</label><br>
+            <input type="date" class="input" name="mfg-date" id="mfg-date" title="Select Manufacturing Date" required><br>
+
+            <label for="exp-date" class="register-label">Expiry Date:</label><br>
+            <input type="date" class="input" name="exp-date" id="exp-date" title="Select Expiry Date" required><br>
+            
+            <button class="admin-submit" type="submit">Register</button>
+        </form>
+        </div>
     </div>
-  </header>
-  <div class="admin-toggle-bar">
-    <button id="toggle-track" class="admin-submit">Track Medicine</button>
-    <button onclick="window.location.href='admin-registermedicine.html'" class="admin-submit">Register Medicine</button>
-    <button onclick="window.location.href='admin-login.html'" class="admin-submit admin-logout">Logout</button>
-  </div>
-  <div id="track-section" class="track-medicine">
-    <div class="track-container">
-      <p class="admin-h1">Track Medicine</p>
-      <form id="track-form">
-        <label for="medicine-id" id="Details">Medicine ID</label><br>
-        <input type="text" class="input" name="medicine-id" placeholder="Enter Medicine ID" required><br>
-        <button class="admin-submit" type="submit">Track</button>
-      </form>
-    </div>
-  </div>
-  <div id="register-section" class="register-medicine">
-    <div class="register-container">
-      <h1 class="admin-h1">Register Medicine</h1>
-      <form class="register-form" id="register-form">
-        <label id="Details">Medicine Name</label><br>
-        <input type="text" class="input" name="medicine-name" placeholder="Enter Medicine Name" required><br>
-        <label id="Details">Drug</label><br>
-        <input type="text" class="input" name="drug" placeholder="Enter Drug" required><br>
-        <label id="Details">Batch ID</label><br>
-        <input type="text" class="input" name="batch-id" placeholder="Enter Batch ID" required><br>
-        <label id="Details">Manufacturer</label><br>
-        <input type="text" class="input" name="manufacturer" placeholder="Enter Manufacturer" required><br>
-        <label id="Details">Manufacturing Date</label><br>
-        <input type="date" class="input" name="mfg-date" required><br>
-        <label id="Details">Expiry Date</label><br>
-        <input type="date" class="input" name="exp-date" required><br>
-        <button class="admin-submit" type="submit">Register</button>
-      </form>
-    </div>
-  </div>
 </body>
 
 <script>
+document.querySelector('.register-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = {
+        name: form['medicine-name'].value.trim(),
+        drug: form['drug'].value.trim(),
+        batch_id: form['batch-id'].value.trim(),
+        manufacturer: form['manufacturer'].value.trim(),
+        mfg_date: form['mfg-date'].value,
+        exp_date: form['exp-date'].value
+    };
 
-document.getElementById('track-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const medId = document.querySelector('input[name="medicine-id"]').value.trim();
-  if (!medId) {
-    alert('Please enter a Medicine ID.');
-    return;
-  }
-  try {
-    const response = await fetch(`https://aushadhirakshak.onrender.com/verify/${encodeURIComponent(medId)}`);
-    if (response.ok) {
-      const data = await response.json();
-      alert(`Medicine found:\nName: ${data.name}\nDrug: ${data.drug}\nBatch: ${data.batch_id}`);
-    } else {
-      alert('Medicine not found or invalid ID.');
+    if (!data.name || !data.drug || !data.batch_id || !data.manufacturer || !data.mfg_date || !data.exp_date) {
+        alert('Please fill all required fields.');
+        return;
     }
-  } catch {
-    alert('Error tracking medicine. Please try again.');
-  }
-});
+    try {
+        const response = await fetch('https://aushadhirakshak.onrender.com/drugs/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Register response:', result);
+            alert('Medicine registered successfully!');
+            form.reset();
 
-document.getElementById('register-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const form = e.target;
-  const data = {
-    name: form['medicine-name'].value.trim(),
-    drug: form['drug'].value.trim(),
-    batch_id: form['batch-id'].value.trim(),
-    manufacturer: form['manufacturer'].value.trim(),
-    mfg_date: form['mfg-date'].value,
-    exp_date: form['exp-date'].value
-  };
-  if (!data.name || !data.drug || !data.batch_id || !data.manufacturer || !data.mfg_date || !data.exp_date) {
-    alert('Please fill all fields.');
-    return;
-  }
-  try {
-    const response = await fetch('https://aushadhirakshak.onrender.com/drugs/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    if (response.ok) {
-      alert('Medicine registered successfully!');
-      form.reset();
-      trackSection.style.display = '';
-      registerSection.style.display = 'none';
-    } else {
-      const error = await response.json();
-      alert('Error: ' + (error.detail || 'Registration failed.'));
+            if (result.qr_code_base64) {
+                const link = document.createElement('a');
+                link.href = 'data:image/png;base64,' + result.qr_code_base64;
+                link.download = 'medicine_qr.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                alert('QR code downloaded!');
+            } else {
+                alert('No QR code found in response.');
+            }
+        } else {
+            const error = await response.json();
+            alert('Error: ' + (error.detail || 'Registration failed.'));
+        }
+    } catch (err) {
+        alert('Network error. Please try again.');
     }
-  } catch {
-    alert('Network error. Please try again.');
-  }
 });
 </script>
+
+<style>
+.register-label {
+  font-size: 20px;
+  font-family: "Nunito", sans-serif;
+}
+</style>
 
 </html>

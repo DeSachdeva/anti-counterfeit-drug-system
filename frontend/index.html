@@ -218,8 +218,7 @@ document.querySelector('.fa-qrcode').addEventListener('click', async () => {
                                 backendDetails.batch_id === qrDetails.batch_id &&
                                 backendDetails.manufacturer === qrDetails.manufacturer &&
                                 String(backendDetails.mfg_date) === String(qrDetails.mfg_date) &&
-                                String(backendDetails.exp_date) === String(qrDetails.exp_date) &&
-                                backendDetails.hash === qrDetails.hash
+                                String(backendDetails.exp_date) === String(qrDetails.exp_date)
                             );
                         }
                         showMedicineDetails(backendDetails || {}, verified);

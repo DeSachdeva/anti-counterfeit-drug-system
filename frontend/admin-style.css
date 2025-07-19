@@ -6,11 +6,11 @@ body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url(/2148502993.jpg); /* Replace with your image path */
+  background-image: url(/2148502993.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.15; /* Adjust transparency */
+  opacity: 0.15; 
   z-index: -1;
 }
 .navbar {
@@ -33,20 +33,7 @@ body::before {
   font-family: "Nunito", sans-serif;
   font-size: 25px;
 }
-.track-medicine {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 55px;
-}
-.track-container {
-  background-color: #20cd8d;
-  height: 300px;
-  border-radius: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-}
+
 .admin-h1 {
   font-family: "Nunito", sans-serif;
   color: white;

@@ -165,8 +165,7 @@ button:active {
 }
 
 /* Icon and button style fixes from inline */
-.bar-icon {
-  color: white;
+.admin-login-btn {
   margin-left: 10px;
 }
 

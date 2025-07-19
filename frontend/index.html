@@ -1,241 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aushadhi Rakshak</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet"/>
-  <link rel="icon" type="image/x-icon" href="logo.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-  <link rel="stylesheet" href="customer-style.css" />
-</head>
-<body>
-  <header class="navbar">
-    <i class="fa-solid fa-bars fa-2xl bar-icon"></i>
-    <div class="navbar-right">
-      <p>Customer</p>
-      <img src="logo.png" class="admin-logo" alt="Shield Logo" />
-    </div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aushadhi Rakshak</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="logo.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="customer-style.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <button
+        class="admin-login-btn"
+        type="button"
+        onclick="window.location.href='admin-login.html'"
+      >
+        Admin Login
+      </button>
 
-  <div class="cus-cnt">
-    <div class="cus">
-      <h1>Verify Medicine</h1>
+      <div class="navbar-right">
+        <p>Customer</p>
+        <img src="logo.png" class="admin-logo" alt="Shield Logo" />
+      </div>
+    </header>
 
-      <div class="hash-code">
-        <p>Hash Code</p>
-        <div class="hash-codeint">
-          <input type="text" placeholder="Enter Hash Code" class="hash-input"/>
-          <i class="fa-solid fa-qrcode fa-lg qr-icon"></i>
+    <div class="cus-cnt">
+      <div class="cus">
+        <h1>Verify Medicine</h1>
+
+        <div class="hash-code">
+          <p>QR Code</p>
+          <div class="hash-codeint">
+            <input
+              type="text"
+              placeholder="Scan QR =====>"
+              class="hash-input"
+            />
+            <i class="fa-solid fa-qrcode fa-lg qr-icon"></i>
+          </div>
+          <button class="hash-btn">Verify</button>
         </div>
-        <button class="hash-btn">Verify</button>
-      </div>
 
-      <div class="medi-details">
-        <h2>Medicine Details</h2>
-        <table class="med-info-table">
-          <tr><td>Medicine Name:</td><td>Paracetamol 500mg</td></tr>
-          <tr><td>Manufacturer:</td><td>ABC Pharmaceuticals</td></tr>
-          <tr><td>Batch Number:</td><td>BN123456</td></tr>
-          <tr><td>Expiry Date:</td><td>31-12-2026</td></tr>
-          <tr><td>Status:</td><td>Verified ✅</td></tr>
-        </table>
+        <div class="medi-details">
+          <h2>Medicine Details</h2>
+          <table class="med-info-table">
+            <tr>
+              <td>Medicine Name:</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>Manufacturer:</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>Batch Number:</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>Expiry Date:</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>Status:</td>
+              <td>
+                Scan QR to Check Status
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
-      <!-- Admin Login Button -->
-      <button class="admin-login-btn" type="button" onclick="window.location.href='admin-login.html'">Admin Login</button>
     </div>
-  </div>
-</body>
+  </body>
 
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-<script>
-
-async function fetchMedicineDetails(hash) {
-    const response = await fetch('https://aushadhirakshak.onrender.com/drugs/verify/' + encodeURIComponent(hash));
-    if (!response.ok) return null;
-    return await response.json();
-}
-
-function showMedicineDetails(details, verified) {
-    const table = document.querySelector('.med-info-table');
-    table.innerHTML = `
-        <tr><td>Medicine Name:</td><td>${details.name || '-'}</td></tr>
-        <tr><td>Manufacturer:</td><td>${details.manufacturer || '-'}</td></tr>
-        <tr><td>Batch Number:</td><td>${details.batch_id || '-'}</td></tr>
-        <tr><td>Expiry Date:</td><td>${details.exp_date || '-'}</td></tr>
-        <tr><td>Status:</td><td>${verified ? 'Verified ✅' : 'Not Verified ❌'}</td></tr>
-    `;
-}
-
-document.querySelector('.hash-btn').addEventListener('click', async () => {
-    const hashCode = document.querySelector('.hash-input').value.trim();
-    if (!hashCode) return alert('Please enter a hash code.');
-    const details = await fetchMedicineDetails(hashCode);
-    if (details) {
-        showMedicineDetails(details, true);
-    } else {
-        showMedicineDetails({}, false);
-        alert('Medicine not found or not verified.');
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+  <script>
+    async function fetchMedicineDetails(hash) {
+      const response = await fetch(
+        "https://aushadhirakshak.onrender.com/drugs/verify/" +
+          encodeURIComponent(hash)
+      );
+      if (!response.ok) return null;
+      return await response.json();
     }
-});
 
+    function showMedicineDetails(details, verified) {
+      const table = document.querySelector(".med-info-table");
+      table.innerHTML = `
+        <tr><td>Medicine Name:</td><td>${details.name || "-"}</td></tr>
+        <tr><td>Manufacturer:</td><td>${details.manufacturer || "-"}</td></tr>
+        <tr><td>Batch Number:</td><td>${details.batch_id || "-"}</td></tr>
+        <tr><td>Expiry Date:</td><td>${details.exp_date || "-"}</td></tr>
+        <tr><td>Status:</td><td>${
+          verified ? "Verified ✅" : "Not Verified ❌"
+        }</td></tr>
+    `;
+    }
 
-document.querySelector('.fa-qrcode').addEventListener('click', async () => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        const overlay = document.createElement('div');
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100vw';
-        overlay.style.height = '100vh';
-        overlay.style.background = 'rgba(0,0,0,0.8)';
-        overlay.style.display = 'flex';
-        overlay.style.alignItems = 'center';
-        overlay.style.justifyContent = 'center';
-        overlay.style.zIndex = '9999';
+    document.querySelector(".hash-btn").addEventListener("click", async () => {
+      const hashCode = document.querySelector(".hash-input").value.trim();
+      if (!hashCode) return alert("Please enter a hash code.");
+      const details = await fetchMedicineDetails(hashCode);
+      if (details) {
+        showMedicineDetails(details, true);
+      } else {
+        showMedicineDetails({}, false);
+        alert("Medicine not found or not verified.");
+      }
+    });
 
-        const video = document.createElement('video');
-        video.style.maxWidth = '90vw';
-        video.style.maxHeight = '70vh';
+    document.querySelector(".fa-qrcode").addEventListener("click", async () => {
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        const overlay = document.createElement("div");
+        overlay.style.position = "fixed";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100vw";
+        overlay.style.height = "100vh";
+        overlay.style.background = "rgba(0,0,0,0.8)";
+        overlay.style.display = "flex";
+        overlay.style.alignItems = "center";
+        overlay.style.justifyContent = "center";
+        overlay.style.zIndex = "9999";
+
+        const video = document.createElement("video");
+        video.style.maxWidth = "90vw";
+        video.style.maxHeight = "70vh";
         overlay.appendChild(video);
 
-        const closeBtn = document.createElement('button');
-        closeBtn.textContent = 'Close';
-        closeBtn.style.position = 'absolute';
-        closeBtn.style.top = '20px';
-        closeBtn.style.right = '30px';
-        closeBtn.style.padding = '10px 20px';
-        closeBtn.style.fontSize = '18px';
-        closeBtn.style.background = '#fff';
-        closeBtn.style.border = 'none';
-        closeBtn.style.borderRadius = '5px';
-        closeBtn.style.cursor = 'pointer';
+        const closeBtn = document.createElement("button");
+        closeBtn.textContent = "Close";
+        closeBtn.style.position = "absolute";
+        closeBtn.style.top = "20px";
+        closeBtn.style.right = "30px";
+        closeBtn.style.padding = "10px 20px";
+        closeBtn.style.fontSize = "18px";
+        closeBtn.style.background = "#fff";
+        closeBtn.style.border = "none";
+        closeBtn.style.borderRadius = "5px";
+        closeBtn.style.cursor = "pointer";
         overlay.appendChild(closeBtn);
 
         document.body.appendChild(overlay);
 
         let stream;
         try {
-            stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-            video.srcObject = stream;
-            video.setAttribute('playsinline', true);
-            await video.play();
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "environment" },
+          });
+          video.srcObject = stream;
+          video.setAttribute("playsinline", true);
+          await video.play();
         } catch (err) {
-            alert('Unable to access camera.');
-            document.body.removeChild(overlay);
-            return;
+          alert("Unable to access camera.");
+          document.body.removeChild(overlay);
+          return;
         }
 
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
         let scanning = true;
 
         async function scan() {
-            if (!scanning) return;
-            if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const code = jsQR(imageData.data, canvas.width, canvas.height);
-                if (code && code.data) {
-                    let qrDetails;
-                    try {
-                        qrDetails = JSON.parse(code.data);
-                    } catch {
-                        alert('Invalid QR code format.');
-                        scanning = false;
-                        stream.getTracks().forEach(track => track.stop());
-                        document.body.removeChild(overlay);
-                        return;
-                    }
-                    const backendDetails = await fetchMedicineDetails(qrDetails.hash);
-                    let verified = false;
+          if (!scanning) return;
+          if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = ctx.getImageData(
+              0,
+              0,
+              canvas.width,
+              canvas.height
+            );
+            const code = jsQR(imageData.data, canvas.width, canvas.height);
+            if (code && code.data) {
+              let qrDetails;
+              try {
+                qrDetails = JSON.parse(code.data);
+              } catch {
+                alert("Invalid QR code format.");
+                scanning = false;
+                stream.getTracks().forEach((track) => track.stop());
+                document.body.removeChild(overlay);
+                return;
+              }
+              const backendDetails = await fetchMedicineDetails(qrDetails.hash);
+              let verified = false;
 
-                    if (backendDetails) {
-                        verified = (
-                            backendDetails.name === qrDetails.name &&
-                            backendDetails.drug === qrDetails.drug &&
-                            backendDetails.batch_id === qrDetails.batch_id &&
-                            backendDetails.manufacturer === qrDetails.manufacturer &&
-                            String(backendDetails.mfg_date) === String(qrDetails.mfg_date) &&
-                            String(backendDetails.exp_date) === String(qrDetails.exp_date)
-                        );
-                    }
+              if (backendDetails) {
+                verified =
+                  backendDetails.name === qrDetails.name &&
+                  backendDetails.drug === qrDetails.drug &&
+                  backendDetails.batch_id === qrDetails.batch_id &&
+                  backendDetails.manufacturer === qrDetails.manufacturer &&
+                  String(backendDetails.mfg_date) ===
+                    String(qrDetails.mfg_date) &&
+                  String(backendDetails.exp_date) ===
+                    String(qrDetails.exp_date);
+              }
 
-                    showMedicineDetails(backendDetails || {}, verified);
+              showMedicineDetails(backendDetails || {}, verified);
 
-                      if (!verified) {
-                        alert('Medicine details do not match. Not Verified!');
-                    }
-                    scanning = false;
-                    stream.getTracks().forEach(track => track.stop());
-                    document.body.removeChild(overlay);
-                    return;
-                }
+              if (!verified) {
+                alert("Medicine details do not match. Not Verified!");
+              }
+              scanning = false;
+              stream.getTracks().forEach((track) => track.stop());
+              document.body.removeChild(overlay);
+              return;
             }
-            requestAnimationFrame(scan);
+          }
+          requestAnimationFrame(scan);
         }
         scan();
 
         closeBtn.onclick = () => {
-            scanning = false;
-            if (stream) stream.getTracks().forEach(track => track.stop());
-            document.body.removeChild(overlay);
+          scanning = false;
+          if (stream) stream.getTracks().forEach((track) => track.stop());
+          document.body.removeChild(overlay);
         };
-    } else {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
+      } else {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
         input.onchange = async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const img = new Image();
-                img.onload = async function() {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, img.width, img.height);
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const code = jsQR(imageData.data, canvas.width, canvas.height);
-                    if (code && code.data) {
-                        let qrDetails;
-                        try {
-                            qrDetails = JSON.parse(code.data);
-                        } catch {
-                            alert('Invalid QR code format.');
-                            return;
-                        }
-                        const backendDetails = await fetchMedicineDetails(qrDetails.hash);
-                        let verified = false;
-                        if (backendDetails) {
-                            verified = (
-                                backendDetails.name === qrDetails.name &&
-                                backendDetails.drug === qrDetails.drug &&
-                                backendDetails.batch_id === qrDetails.batch_id &&
-                                backendDetails.manufacturer === qrDetails.manufacturer &&
-                                String(backendDetails.mfg_date) === String(qrDetails.mfg_date) &&
-                                String(backendDetails.exp_date) === String(qrDetails.exp_date)
-                            );
-                        }
-                        showMedicineDetails(backendDetails || {}, verified);
-                        if (!verified) {
-                            alert('Medicine details do not match. Not Verified!');
-                        }
-                    } else {
-                        alert('QR code not detected.');
-                    }
-                };
-                img.src = event.target.result;
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = function (event) {
+            const img = new Image();
+            img.onload = async function () {
+              const canvas = document.createElement("canvas");
+              canvas.width = img.width;
+              canvas.height = img.height;
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(img, 0, 0, img.width, img.height);
+              const imageData = ctx.getImageData(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+              );
+              const code = jsQR(imageData.data, canvas.width, canvas.height);
+              if (code && code.data) {
+                let qrDetails;
+                try {
+                  qrDetails = JSON.parse(code.data);
+                } catch {
+                  alert("Invalid QR code format.");
+                  return;
+                }
+                const backendDetails = await fetchMedicineDetails(
+                  qrDetails.hash
+                );
+                let verified = false;
+                if (backendDetails) {
+                  verified =
+                    backendDetails.name === qrDetails.name &&
+                    backendDetails.drug === qrDetails.drug &&
+                    backendDetails.batch_id === qrDetails.batch_id &&
+                    backendDetails.manufacturer === qrDetails.manufacturer &&
+                    String(backendDetails.mfg_date) ===
+                      String(qrDetails.mfg_date) &&
+                    String(backendDetails.exp_date) ===
+                      String(qrDetails.exp_date);
+                }
+                showMedicineDetails(backendDetails || {}, verified);
+                if (!verified) {
+                  alert("Medicine details do not match. Not Verified!");
+                }
+              } else {
+                alert("QR code not detected.");
+              }
             };
-            reader.readAsDataURL(file);
+            img.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
         };
         input.click();
-    }
-});
-</script>
-
+      }
+    });
+  </script>
 </html>
